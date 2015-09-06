@@ -37,11 +37,36 @@ function mcacc_install() {
     register_uninstall_hook(__FILE__, 'mcacc_uninstall');
 }
 
+//Adding rewrite for virtual page (direct redirect to php file)
+add_action( 'init', 'mcacc_init_internal' );
+
+function mcacc_init_internal(){
+    add_rewrite_rule('UserPanel.php$',plugin_dir_path( __FILE__ ).'UserPanel.php','top');
+    
+}
+
+add_filter( 'query_vars', 'mcacc_query_vars' );
+function mcacc_query_vars( $query_vars )
+{
+    $query_vars[] = 'mcacc_vars';
+    return $query_vars;
+}
+
+add_action( 'parse_request', 'mcacc_parse_request' );
+function mcacc_parse_request( &$wp )
+{
+    if ( array_key_exists( 'mcacc_vars', $wp->query_vars ) ) {
+        include 'UserPanel.php$';
+        exit();
+    }
+    return;
+}
+//rewrite done
+
 include 'AdminPanel.php';
 
 //Diactivation
 function mcacc_uninstall(){
-    
     
     delete_option('mcacc_options');
 }
