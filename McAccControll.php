@@ -25,9 +25,9 @@ function mcacc_install() {
         'db_pass' => 'Srr3ZaEq8PYyBhqh',
         'db_name' => 'mcgame',
         'db_host' => 'localhost',   
-        'rcon_server' => '62.80.237.198',
+        'rcon_server' => '**.**.**.***',
         'rcon_server_port' => 25575,
-        'rcon_server_pass' => 'kemmpinukas',
+        'rcon_server_pass' => '*****',
         'log_level' => '3',
         'log_file' => 'orderLog.txt',
         );
