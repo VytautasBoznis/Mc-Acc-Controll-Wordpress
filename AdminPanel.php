@@ -3,7 +3,8 @@
 add_action('admin_menu', 'mcacc_setup_menu');
 
 function mcacc_setup_menu(){
-        add_menu_page( 'Mc Acc Controll plugin', 'Mc Acc Controll', 'manage_options', 'mcacc_system_plugin', 'mcacc_main_manu_init' );
+    add_menu_page( 'Mc Acc Controll plugin', 'Mc Acc Controll', 'manage_options', 'mcacc_system_plugin', 'mcacc_main_manu_init' );
+    add_submenu_page('mcacc_system_plugin', 'Funkciju valdymas', 'Funkciju valdymas', 'manage_options', 'edit_functions', 'mcacc_function_page_init');
 }
 
 //optionu tvarkimo langas
@@ -60,4 +61,9 @@ function mcacc_generate_option_form(){
     echo "<input type='text' name='log_file' value='".$settings['log_file']."'><br><br>";
     
     echo "<input type='submit' value='Issaugoti'></form>";
+}
+
+function mcacc_function_page_init(){
+    
+    echo "online";
 }
