@@ -2,8 +2,10 @@
 
 /*
  * Author: Andrius Božnis
+ * Remake: Vytautas Božnis
  * Company www.skilas.lt
- * Date: 2013.07.20 
+ * Date: 2013.07.20
+ * Date Remake: 2015.11.10
  */
 
 /**
@@ -15,11 +17,7 @@
  */
 
 require_once 'log.php';
-require_once 'config_infusion.php';
-require_once('../../../wp-load.php');
 
-define('WP_USE_THEMES', false);
- 
 class dbConnect {
     
     protected static $instance = null;

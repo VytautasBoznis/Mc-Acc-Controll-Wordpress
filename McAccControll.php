@@ -13,17 +13,22 @@ License: Private
 Text Domain: Mc Acc Controll
 */
 
-register_activation_hook( __FILE__, 'mcacc_install' );
-add_action('wp_enqueue_scripts', 'mcacc_register_scripts');
-
 include 'log.php';
+include 'AdminPanel.php';
+include 'user_widget.php';
+include 'mcacclist.php';
+
+register_activation_hook( __FILE__, 'mcacc_install');
+add_action('wp_enqueue_scripts', 'mcacc_register_scripts');
+add_action('widgets_init', 'mcacc_register_user_widget');
+add_action('init', 'mcacc_register_shortcodes');
 
 //Activation
 function mcacc_install() {
    
     global $wpdb;
     
-    $mcacc_default = array(
+    $mcacc_default = [
         'db_user' => 'mcgame',
         'db_pass' => 'Srr3ZaEq8PYyBhqh',
         'db_name' => 'mcgame',
@@ -34,7 +39,9 @@ function mcacc_install() {
         'log_level' => '3',
         'log_file' => 'orderLog.txt',
         'allow_login' => true,
-        );
+        'user_controll_shortcode' => 'mcacc_user_controll',
+        'mcacc_user_controll_active' => 1
+        ];
     
     update_option('mcacc_options',$mcacc_default);
     
@@ -62,24 +69,19 @@ function mcacc_register_scripts() {
     wp_register_script('user_panel_js', plugins_url('/user_panel.js',__FILE__));
 }
 
-include 'AdminPanel.php';
-include 'user_widget.php';
-
-add_shortcode('user_panel','show_user_panel');
-
-function show_user_panel(){
-    
-    wp_enqueue_script('user_panel_js');
-            
-    echo('<button onclick="myFunction()">Try it</button>');
-    echo("TEST!");
-}
-
-add_action( 'widgets_init', 'mcacc_register_user_widget' );
-
+//User widget registration
 function mcacc_register_user_widget() {
     register_widget( 'user_widget' );
 }
+
+//Shortcode registration
+function mcacc_register_shortcodes() {
+    
+    $settings = get_option('mcacc_options');
+    
+    add_shortcode($settings['user_controll_shortcode'], 'mcacc_generate_acc_list_table');
+}
+
 //Diactivation
 function mcacc_uninstall(){
     
